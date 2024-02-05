@@ -13,16 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome');
 
-// Rotte per le Tasks
-Route::resource('tasks', TaskController::class);
+Route::view('dashboard', 'dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
-// Rotte per Admin Dashboard
-Route::middleware(['auth', 'isAdmin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    // altre rotte per la gestione degli utenti e privilegi
-});
+Route::view('profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
 
+require __DIR__.'/auth.php';
